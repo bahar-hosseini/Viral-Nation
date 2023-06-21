@@ -1,15 +1,14 @@
 import React from 'react';
 import Switch from '@mui/material/Switch';
-
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Brightness2Icon from '@material-ui/icons/Brightness2';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 
 const CustomSwitch = () => {
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
+    width: 40,
     height: 16,
     padding: 0,
     display: 'flex',
@@ -24,7 +23,7 @@ const CustomSwitch = () => {
     '& .MuiSwitch-switchBase': {
       padding: 2,
       '&.Mui-checked': {
-        transform: 'translateX(12px)',
+        transform: 'translateX(24px)',
         color: '#fff',
         '& + .MuiSwitch-track': {
           opacity: 1,
@@ -51,9 +50,9 @@ const CustomSwitch = () => {
   }));
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-    <Brightness2Icon />
+    <LightModeIcon />
     <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
-    <Typography>On</Typography>
+    <DarkModeIcon />
   </Stack>
   );
 };
