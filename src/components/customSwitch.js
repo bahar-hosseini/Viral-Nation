@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Switch from '@mui/material/Switch';
 
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
+
 
 const CustomSwitch = () => {
   const AntSwitch = styled(Switch)(({ theme }) => ({
