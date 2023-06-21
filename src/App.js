@@ -1,8 +1,14 @@
 import React from 'react'
+import Home from './screens/Home'
+import Navbar from './components/Navbar'
+
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+           <Navbar />
+      <Home />
+    </div>
   )
 }
 
