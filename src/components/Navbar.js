@@ -2,6 +2,9 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
+import CustomSwitch from './customSwitch';
+import Box from '@mui/material/Box';
+
 
 const Navbar = () => {
   return (
@@ -9,6 +12,7 @@ const Navbar = () => {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1 }}>
             <img
               src="/V-light.png"
               alt="V"
@@ -28,8 +32,11 @@ const Navbar = () => {
             >
               iral Nation
             </span>
+            </Box>
+          <CustomSwitch />
           </Toolbar>
         </Container>
+        
       </AppBar>
     </div>
   );
