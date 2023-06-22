@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Avatar, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 const COLLECTIONS = gql`
   query GetAllProfiles(
@@ -42,6 +43,7 @@ const columns = [
         <Typography>
           {params.row.first_name} {params.row.last_name}
         </Typography>
+        {params.row.is_verified && <VerifiedIcon color="secondary" />}
       </>
     ),
   },
