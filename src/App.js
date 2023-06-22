@@ -12,9 +12,6 @@ const App = () => {
     <ThemeProvider theme={activeTheme}>
       <Navbar />
       <Paper>
-        <Card>
-          <p>dkjhsdjkasdbja hjadvhjavj</p>
-        </Card>
         <Home />
       </Paper>
     </ThemeProvider>
