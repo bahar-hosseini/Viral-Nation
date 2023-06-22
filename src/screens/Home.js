@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography, Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -11,6 +11,7 @@ const columns = [
     field: "first_name",
     headerName: "Name",
     width: 400,
+
     renderCell: (params) => (
       <>
         <Box sx={{ mx: 2 }}>
@@ -35,11 +36,15 @@ const columns = [
   },
   { field: "email", headerName: "Email", width: 110 },
   { field: "description", headerName: "Description", width: 300 },
-  { headerName: <SettingsIcon />, renderCell: (params) => <MoreVertIcon /> },
+  {
+    headerName: <SettingsIcon />,
+    renderCell: (params) => <MoreVertIcon />,
+    sortable: false,
+  },
 ];
 
 function Home() {
-  const { loading, error, data } = useGetAllProfiles(500); // Fetch 500 rows
+  const { loading, error, data } = useGetAllProfiles();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -51,14 +56,19 @@ function Home() {
 
   return (
     <Box sx={{ p: 6, mx: 6 }}>
-      <DataGrid
-        columns={columns}
-        rows={data?.getAllProfiles?.profiles || []}
-        pageSizeOptions={[10, 25, 50]}
-        initialState={{
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <DataGrid
+            columns={columns}
+            rows={data?.getAllProfiles?.profiles || []}
+            pageSizeOptions={[10, 25, 50]}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10 } },
+            }}
+            ColumnWidth="*"
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 }
