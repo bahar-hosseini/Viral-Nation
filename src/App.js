@@ -1,15 +1,24 @@
-import React from 'react'
-import Home from './screens/Home'
-import Navbar from './components/Navbar'
-
+import { useContext } from "react";
+import { ThemeProvider, Paper } from "@mui/material";
+import Navbar from "./components/Navbar";
+import Home from "./screens/Home";
+import { Card } from "@material-ui/core";
+import { ThemeContext } from "./providers/DarkModeProvider";
 
 const App = () => {
-  return (
-    <div>
-           <Navbar />
-      <Home />
-    </div>
-  )
-}
+  const { activeTheme } = useContext(ThemeContext);
 
-export default App
+  return (
+    <ThemeProvider theme={activeTheme}>
+      <Navbar />
+      <Paper>
+        <Card>
+          <p>dkjhsdjkasdbja hjadvhjavj</p>
+        </Card>
+        <Home />
+      </Paper>
+    </ThemeProvider>
+  );
+};
+
+export default App;
