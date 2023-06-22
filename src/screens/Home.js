@@ -1,70 +1,45 @@
-import { gql, useQuery } from "@apollo/client";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SettingsIcon from "@mui/icons-material/Settings";
 
-const COLLECTIONS = gql`
-  query GetAllProfiles(
-    $orderBy: globalOrderBy
-    $searchString: String
-    $rows: Int
-    $page: Int
-  ) {
-    getAllProfiles(
-      orderBy: $orderBy
-      searchString: $searchString
-      rows: $rows
-      page: $page
-    ) {
-      size
-      profiles {
-        id
-        first_name
-        last_name
-        email
-        is_verified
-        image_url
-        description
-      }
-    }
-  }
-`;
+import useGetAllProfiles from "../hooks/useGetAllProfiles";
 
 const columns = [
   {
     field: "first_name",
     headerName: "Name",
-    width: 250,
+    width: 400,
     renderCell: (params) => (
       <>
-        <Avatar src={params.row.image_url} alt="profile image" width={70} />
-
-        <Typography>
-          {params.row.first_name} {params.row.last_name}
-        </Typography>
-        {params.row.is_verified && <VerifiedIcon color="secondary" />}
+        <Box sx={{ mx: 2 }}>
+          <Avatar src={params.row.image_url} alt="profile image" width={80} />
+        </Box>
+        <Box>
+          <Typography>
+            {params.row.first_name} {params.row.last_name}
+          </Typography>
+        </Box>
+        <Box sx={{ mx: 2 }}>
+          {params.row.is_verified && <VerifiedIcon color="secondary" />}
+        </Box>
       </>
     ),
   },
   {
     field: "id",
     headerName: "ID",
+    width: 110,
+    renderCell: (params) => params.row.id.slice(0, 3),
   },
-  { field: "email", headerName: "Email" },
-  { field: "description", headerName: "Description", width: 400 },
+  { field: "email", headerName: "Email", width: 110 },
+  { field: "description", headerName: "Description", width: 300 },
+  { headerName: <SettingsIcon />, renderCell: (params) => <MoreVertIcon /> },
 ];
 
 function Home() {
-  const [tableData, setTableData] = useState([]);
-  const { loading, error, data } = useQuery(COLLECTIONS, {
-    variables: {
-      orderBy: { key: "is_verified", sort: "desc" },
-      rows: 1000,
-      // page: ,
-      searchString: "",
-    },
-  });
+  const { loading, error, data } = useGetAllProfiles(500); // Fetch 500 rows
 
   if (loading) {
     return <div>Loading...</div>;
@@ -74,24 +49,17 @@ function Home() {
     return <div>Error: {error.message}</div>;
   }
 
-  // console.log("test app", data["getAllProfiles"]["profiles"]);
   return (
-    <div>
-      <h1>All Profiles</h1>
-      {/* <ul>
-        {data.getAllProfiles.profiles.map((profile) => (
-          <li key={profile.id}>
-            {profile.id}: {profile.first_name} {profile.last_name} -{" "}
-            {profile.email} -{profile.description}
-          </li>
-        ))}
-      </ul> */}
+    <Box sx={{ p: 6, mx: 6 }}>
       <DataGrid
         columns={columns}
-        rows={data.getAllProfiles.profiles}
-        pageSize={10}
+        rows={data?.getAllProfiles?.profiles || []}
+        pageSizeOptions={[10, 25, 50]}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
       />
-    </div>
+    </Box>
   );
 }
 
