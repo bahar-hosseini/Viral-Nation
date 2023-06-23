@@ -29,7 +29,7 @@ const lightTheme = createTheme({
     primary: {
       main: "#FCFCFD",
       light: "#FCFCFD",
-      dark: "#F6F6F6",
+      dark: "#E0E0E0",
     },
     secondary: {
       main: "#3B94ED",
