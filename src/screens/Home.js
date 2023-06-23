@@ -7,6 +7,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import useGetAllProfiles from "../hooks/useGetAllProfiles";
+import CreateProfile from "../components/CreateProfile";
 
 function Home() {
   const { loading, error, data } = useGetAllProfiles();
@@ -14,6 +15,7 @@ function Home() {
 
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState(profiles);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (profiles) {
@@ -106,11 +108,13 @@ function Home() {
           variant="outlined"
           sx={{ mx: 2, p: 1.25 }}
           aria-label="create profile"
+          onClick={() => setOpen(true)}
         >
           <PersonAddIcon sx={{ mr: 1 }} />
           Create Profile
         </Button>
       </Box>
+      <CreateProfile open={open} setOpen={setOpen} />
       <DataGrid
         columns={columns}
         rows={rows || []}
