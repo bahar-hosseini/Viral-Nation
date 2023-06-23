@@ -12,6 +12,9 @@ const darkTheme = createTheme({
     secondary: {
       main: "#3B94ED",
     },
+    moreBtn: {
+      main: "#121212",
+    },
     background: {
       default: "#1E1E1E",
       paper: "#181A1C",
@@ -29,11 +32,14 @@ const lightTheme = createTheme({
       dark: "#F6F6F6",
     },
     secondary: {
-      main: "#2196f3",
+      main: "#3B94ED",
     },
     background: {
       default: "#ffffff",
       paper: "#F6F6F6",
+    },
+    moreBtn: {
+      main: "#616161",
     },
   },
 });
