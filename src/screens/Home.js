@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography, TextField } from "@mui/material";
+import { Avatar, Box, Typography, TextField, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -19,7 +19,9 @@ function Home() {
       if (search) {
         setRows(
           profiles.filter((row) =>
-            row.first_name.toLowerCase().includes(search)
+            (row.first_name + " " + row.last_name)
+              .toLowerCase()
+              .includes(search)
           )
         );
       } else {
@@ -40,7 +42,8 @@ function Home() {
     {
       field: "first_name",
       headerName: "Name",
-      width: 400,
+      headerAlign: "center",
+      width: 300,
       renderCell: (params) => (
         <>
           <Box sx={{ mx: 2 }}>
@@ -60,14 +63,31 @@ function Home() {
     {
       field: "id",
       headerName: "ID",
-      width: 110,
-      renderCell: (params) => params.row.id.slice(0, 3),
+      width: 210,
+      headerAlign: "center",
+      align: "center",
+      // renderCell: (params) => params.row.id.slice(0, 3),
     },
     { field: "email", headerName: "Email", width: 110 },
-    { field: "description", headerName: "Description", width: 300 },
     {
+      field: "description",
+      headerName: "Description",
+      width: 300,
+      sortable: false,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "",
       headerName: <SettingsIcon />,
-      renderCell: (params) => <MoreVertIcon />,
+      with: 110,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Button color="moreBtn">
+          <MoreVertIcon />
+        </Button>
+      ),
       sortable: false,
     },
   ];
@@ -83,8 +103,9 @@ function Home() {
       <DataGrid
         columns={columns}
         rows={rows || []}
-        pageSizeOptions={[10, 25, 50]}
+        pageSizeOptions={[5, 10, 100]}
         pageSize={10}
+        // onPageChange={handlePageChange}
       />
     </Box>
   );

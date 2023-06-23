@@ -32,7 +32,7 @@ const useGetAllProfiles = () => {
     variables: {
       orderBy: { key: "is_verified", sort: "desc" },
       rows: 100000,
-      // page: ,
+      // page: 0,
       searchString: "",
     },
   });
