@@ -1,11 +1,12 @@
+import { useState, useEffect } from "react";
 import { Avatar, Box, Typography, TextField, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import useGetAllProfiles from "../hooks/useGetAllProfiles";
-import { useState, useEffect } from "react";
 
 function Home() {
   const { loading, error, data } = useGetAllProfiles();
@@ -94,12 +95,22 @@ function Home() {
 
   return (
     <Box sx={{ p: 6, mx: 6 }}>
-      <TextField
-        label="Search"
-        fullWidth
-        sx={{ mb: 2 }}
-        onChange={(e) => setSearch(e.target.value.toLowerCase())}
-      />
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+        <TextField
+          label="Search"
+          sx={{ flexGrow: 1 }}
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
+        />
+        <Button
+          color="secondary"
+          variant="outlined"
+          sx={{ mx: 2, p: 1.25 }}
+          aria-label="create profile"
+        >
+          <PersonAddIcon sx={{ mr: 1 }} />
+          Create Profile
+        </Button>
+      </Box>
       <DataGrid
         columns={columns}
         rows={rows || []}
