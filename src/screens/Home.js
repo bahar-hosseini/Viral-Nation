@@ -8,7 +8,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import useGetAllProfiles from "../hooks/useGetAllProfiles";
 import CreateProfile from "../components/CreateProfile";
-import EditProfile from "../components/EditProfile";
+import DropDown from "../components/DropDown";
 
 function Home() {
   const { loading, error, data } = useGetAllProfiles();
@@ -17,7 +17,7 @@ function Home() {
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState(profiles);
   const [openCreatePro, setOpenCreatePro] = useState(false);
-  const [openEditPro, setOpenEditPro] = useState(false);
+  const [openDropDown, setOpenDropDown] = useState(false);
 
   const [selectedRows, setSelectedRows] = useState([]);
   console.log(selectedRows);
@@ -92,8 +92,8 @@ function Home() {
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
-        <Button color="moreBtn">
-          <MoreVertIcon onClick={() => setOpenEditPro(true)} />
+        <Button color="moreBtn" onClick={() => setOpenDropDown(true)}>
+          <MoreVertIcon />
         </Button>
       ),
       sortable: false,
@@ -120,12 +120,7 @@ function Home() {
         </Button>
       </Box>
       <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
-      <EditProfile
-        open={openEditPro}
-        setOpen={setOpenEditPro}
-        initialData={selectedRows.length > 0 && selectedRows[0]}
-        profileId={selectedRows.length > 0 && selectedRows[0]["id"]}
-      />
+
       <DataGrid
         columns={columns}
         rows={rows || []}
@@ -141,6 +136,11 @@ function Home() {
 
           setSelectedRows(selectedRows);
         }}
+      />
+      <DropDown
+        selectedRows={selectedRows}
+        open={openDropDown}
+        setOpen={setOpenDropDown}
       />
     </Box>
   );
