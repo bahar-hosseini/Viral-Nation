@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import Dialog from "@mui/material/Dialog";
 import {
   DialogTitle,
@@ -15,64 +13,24 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-
-const CREATE_PROFILE_MUTATION = gql`
-  mutation CreateProfile(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $isVerified: Boolean!
-    $imageUrl: String!
-    $description: String!
-  ) {
-    createProfile(
-      first_name: $firstName
-      last_name: $lastName
-      email: $email
-      is_verified: $isVerified
-      image_url: $imageUrl
-      description: $description
-    ) {
-      id
-      first_name
-      last_name
-      email
-      is_verified
-      image_url
-      description
-    }
-  }
-`;
+import useCreateProfile from "../hooks/useCreateProfile";
 
 const CreateProfile = ({ open, setOpen }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [description, setDescription] = useState("");
-
-  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION);
-
-  const handleCreateProfile = () => {
-    createProfile({
-      variables: {
-        firstName,
-        lastName,
-        email,
-        isVerified,
-        imageUrl,
-        description,
-      },
-    })
-      .then((response) => {
-        console.log("Profile created:", response.data.createProfile);
-        setOpen(false);
-      })
-      .catch((error) => {
-        console.error("Error creating profile:", error);
-      });
-  };
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    email,
+    setEmail,
+    isVerified,
+    setIsVerified,
+    imageUrl,
+    setImageUrl,
+    description,
+    setDescription,
+    handleCreateProfile,
+  } = useCreateProfile(() => setOpen(false));
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
