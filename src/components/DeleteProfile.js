@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Dialog,
@@ -7,29 +8,21 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { useMutation, gql } from "@apollo/client";
-import React from "react";
-
 import CloseIcon from "@mui/icons-material/Close";
 
-const DELETE_PROFILE_MUTATION = gql`
-  mutation DeleteProfile($deleteProfileId: String!) {
-    deleteProfile(id: $deleteProfileId)
-  }
-`;
+import useDeleteProfile from "../hooks/useDeleteProfile";
 
 const DeleteProfile = ({ open, setOpen, profileId }) => {
-  const [deleteProfile] = useMutation(DELETE_PROFILE_MUTATION);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const handleDeleteProfile = useDeleteProfile(() => {
+    setIsDeleting(false);
+    setOpen(false);
+    window.location.reload();
+  });
 
-  const handleDeleteProfile = () => {
-    deleteProfile({ variables: { deleteProfileId: profileId } })
-      .then((response) => {
-        console.log("Profile deleted");
-        setOpen(false);
-      })
-      .catch((error) => {
-        console.error("Error deleting profile:", error);
-      });
+  const handleConfirmDelete = () => {
+    setIsDeleting(true);
+    handleDeleteProfile(profileId);
   };
 
   return (
@@ -43,7 +36,7 @@ const DeleteProfile = ({ open, setOpen, profileId }) => {
 
       <Divider />
       <Typography sx={{ px: 2, py: 6 }}>
-        Removed profile will be deleted permenantly and won't be available
+        Removed profile will be deleted permanently and won't be available
         anymore.
       </Typography>
       <Divider />
@@ -67,9 +60,10 @@ const DeleteProfile = ({ open, setOpen, profileId }) => {
           variant="contained"
           aria-label="Delete"
           sx={{ px: 6 }}
-          onClick={handleDeleteProfile}
+          disabled={isDeleting}
+          onClick={handleConfirmDelete}
         >
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </Button>
       </Stack>
     </Dialog>
