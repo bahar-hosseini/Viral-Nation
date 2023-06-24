@@ -36,9 +36,12 @@ const useCreateProfile = (onSuccess) => {
   const [isVerified, setIsVerified] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION);
+  const [createProfile, { loading }] = useMutation(CREATE_PROFILE_MUTATION);
   const handleCreateProfile = () => {
+    setError(null);
     createProfile({
       variables: {
         firstName,
@@ -50,12 +53,16 @@ const useCreateProfile = (onSuccess) => {
       },
     })
       .then((response) => {
-        console.log("Profile created:", response.data.createProfile);
         onSuccess();
+        setSuccess(
+          `Profile of ${response.data.createProfile.firstName} has been created.`
+        );
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Error creating profile:", error);
+        setError(
+          `An error occurred during creating the profile. the error is ${error}`
+        );
       });
   };
 
@@ -73,6 +80,9 @@ const useCreateProfile = (onSuccess) => {
     description,
     setDescription,
     handleCreateProfile,
+    error,
+    success,
+    loading,
   };
 };
 

@@ -10,6 +10,8 @@ import {
   Stack,
   Typography,
   IconButton,
+  Alert,
+  LinearProgress,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,6 +32,8 @@ const CreateProfile = ({ open, setOpen }) => {
     description,
     setDescription,
     handleCreateProfile,
+    error,
+    loading,
   } = useCreateProfile(() => setOpen(false));
 
   return (
@@ -45,6 +49,11 @@ const CreateProfile = ({ open, setOpen }) => {
             <IconButton onClick={() => setOpen(false)}>
               <CloseIcon sx={{ mx: 2 }} />
             </IconButton>
+          </Stack>
+          <Divider />
+          <Stack>
+            {error && <Alert severity="error">{error}</Alert>}
+            {loading && <LinearProgress />}
           </Stack>
           <Divider />
           <TextField
