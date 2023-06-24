@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import EditProfile from "./EditProfile";
+import DeleteProfile from "./DeleteProfile";
 
 const DropDown = ({ open, setOpen, selectedRows }) => {
   const [openEditPro, setOpenEditPro] = useState(false);
+  const [openDeletePro, setOpenDeletePro] = useState(false);
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)}>
@@ -31,6 +33,7 @@ const DropDown = ({ open, setOpen, selectedRows }) => {
             <ListItemButton
               autoFocus
               onClick={() => {
+                setOpenDeletePro(true);
                 setOpen(false);
               }}
             >
@@ -45,6 +48,7 @@ const DropDown = ({ open, setOpen, selectedRows }) => {
         initialData={selectedRows.length > 0 && selectedRows[0]}
         profileId={selectedRows.length > 0 && selectedRows[0]["id"]}
       />
+      <DeleteProfile open={openDeletePro} setOpen={setOpenDeletePro} />
     </>
   );
 };

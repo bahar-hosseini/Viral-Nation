@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Avatar, Box, Typography, TextField, Button } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -92,9 +99,9 @@ function Home() {
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
-        <Button color="moreBtn" onClick={() => setOpenDropDown(true)}>
+        <IconButton color="moreBtn" onClick={() => setOpenDropDown(true)}>
           <MoreVertIcon />
-        </Button>
+        </IconButton>
       ),
       sortable: false,
     },

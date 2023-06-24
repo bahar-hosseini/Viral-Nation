@@ -15,6 +15,12 @@ const darkTheme = createTheme({
     moreBtn: {
       main: "#121212",
     },
+    deleteBtn: {
+      main: "#CC1016",
+    },
+    cancelBtn: {
+      main: "#EEEEEE",
+    },
     background: {
       default: "#1E1E1E",
       paper: "#181A1C",
@@ -40,6 +46,12 @@ const lightTheme = createTheme({
     },
     moreBtn: {
       main: "#616161",
+    },
+    deleteBtn: {
+      main: "#CC1016",
+    },
+    cancelBtn: {
+      main: "#EEEEEE",
     },
   },
 });
