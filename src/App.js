@@ -12,7 +12,19 @@ const App = () => {
     <ThemeProvider theme={activeTheme}>
       <Navbar />
       <CssBaseline />
-      <Paper>
+      <Paper
+        elevation={0}
+        square={false}
+        sx={{
+          width: "80vw",
+          height: "auto",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "0 auto",
+          border: 0,
+        }}
+      >
         <Home />
       </Paper>
     </ThemeProvider>

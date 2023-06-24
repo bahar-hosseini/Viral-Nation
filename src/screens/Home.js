@@ -28,7 +28,13 @@ function Home() {
   const [openCreatePro, setOpenCreatePro] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
 
+  const PAGE_SIZE = 10;
+
   const [selectedRows, setSelectedRows] = useState([]);
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: PAGE_SIZE,
+    page: 0,
+  });
 
   useEffect(() => {
     if (profiles) {
@@ -56,6 +62,7 @@ function Home() {
       headerName: "Name",
       headerAlign: "center",
       width: 300,
+      cellClassName: "super-app-theme--cell",
       renderCell: (params) => (
         <>
           <Box sx={{ mx: 2 }}>
@@ -90,11 +97,12 @@ function Home() {
       align: "center",
     },
     {
-      field: "",
-      headerName: <SettingsIcon />,
-      with: 110,
+      field: "none",
+      headerName: <SettingsIcon color="morebtn" />,
+      with: 50,
       align: "center",
       headerAlign: "center",
+      cellClassName: "super-app-theme--cell",
       renderCell: (params) => (
         <IconButton color="moreBtn" onClick={() => setOpenDropDown(true)}>
           <MoreVertIcon />
@@ -129,23 +137,36 @@ function Home() {
             </Button>
           </Box>
           <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
-
-          <DataGrid
-            columns={columns}
-            rows={rows || []}
-            pageSizeOptions={[5, 10, 100]}
-            pageSize={10}
-            disableMultipleRowSelection={true}
-            // onPageChange={handlePageChange}
-            onRowSelectionModelChange={(ids) => {
-              const selectedIDs = new Set(ids);
-              const selectedRows = profiles.filter((row) =>
-                selectedIDs.has(row.id)
-              );
-
-              setSelectedRows(selectedRows);
+          <Box
+            sx={{
+              "& .super-app-theme--cell": {
+                backgroundColor: "primary.light",
+                fontWeight: "400",
+                boxShadow: 2,
+              },
+              "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
+                borderBottom: "1px solid primary",
+                boarderTop: "0",
+              },
             }}
-          />
+          >
+            <DataGrid
+              columns={columns}
+              rows={rows || []}
+              disableMultipleRowSelection={true}
+              onRowSelectionModelChange={(ids) => {
+                const selectedIDs = new Set(ids);
+                const selectedRows = profiles.filter((row) =>
+                  selectedIDs.has(row.id)
+                );
+
+                setSelectedRows(selectedRows);
+              }}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              pageSizeOptions={[5, PAGE_SIZE]}
+            />
+          </Box>
           <DropDown
             selectedRows={selectedRows}
             open={openDropDown}
