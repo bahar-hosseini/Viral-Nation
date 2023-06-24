@@ -27,9 +27,9 @@ function Home() {
   const [rows, setRows] = useState(profiles);
   const [openCreatePro, setOpenCreatePro] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
+  const [pageSize, setPageSize] = useState(10);
 
   const [selectedRows, setSelectedRows] = useState([]);
-  console.log(selectedRows);
 
   useEffect(() => {
     if (profiles) {
@@ -46,10 +46,6 @@ function Home() {
       }
     }
   }, [search, profiles]);
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   const columns = [
     {
@@ -107,7 +103,7 @@ function Home() {
 
   return (
     <Box sx={{ p: 6, mx: 6 }}>
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && <Alert severity="error">{error.message}</Alert>}
       {loading ? (
         <LinearProgress color="secondary" />
       ) : (
@@ -134,10 +130,11 @@ function Home() {
           <DataGrid
             columns={columns}
             rows={rows || []}
-            pageSizeOptions={[5, 10, 100]}
-            pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
+            pagination
             disableMultipleRowSelection={true}
-            // onPageChange={handlePageChange}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             onRowSelectionModelChange={(ids) => {
               const selectedIDs = new Set(ids);
               const selectedRows = profiles.filter((row) =>
