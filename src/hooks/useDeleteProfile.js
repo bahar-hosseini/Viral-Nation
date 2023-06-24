@@ -7,7 +7,9 @@ const DELETE_PROFILE_MUTATION = gql`
 `;
 
 const useDeleteProfile = (onDelete) => {
-  const [deleteProfile] = useMutation(DELETE_PROFILE_MUTATION);
+  const [deleteProfile, { loading, error }] = useMutation(
+    DELETE_PROFILE_MUTATION
+  );
 
   const handleDeleteProfile = (profileId) => {
     deleteProfile({ variables: { deleteProfileId: profileId } })
@@ -20,7 +22,7 @@ const useDeleteProfile = (onDelete) => {
       });
   };
 
-  return handleDeleteProfile;
+  return { handleDeleteProfile, loading, error };
 };
 
 export default useDeleteProfile;

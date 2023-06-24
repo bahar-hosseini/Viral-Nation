@@ -7,6 +7,8 @@ import {
   Stack,
   Typography,
   IconButton,
+  Alert,
+  LinearProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -14,7 +16,7 @@ import useDeleteProfile from "../hooks/useDeleteProfile";
 
 const DeleteProfile = ({ open, setOpen, profileId }) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const handleDeleteProfile = useDeleteProfile(() => {
+  const { handleDeleteProfile, loading, error } = useDeleteProfile(() => {
     setIsDeleting(false);
     setOpen(false);
     window.location.reload();
@@ -33,7 +35,10 @@ const DeleteProfile = ({ open, setOpen, profileId }) => {
           <CloseIcon sx={{ mx: 2 }} />
         </IconButton>
       </Stack>
-
+      <Stack>
+        {error && <Alert severity="error">{error}</Alert>}
+        {loading && <LinearProgress />}
+      </Stack>
       <Divider />
       <Typography sx={{ px: 2, py: 6 }}>
         Removed profile will be deleted permanently and won't be available
