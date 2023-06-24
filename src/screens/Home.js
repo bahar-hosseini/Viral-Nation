@@ -6,6 +6,8 @@ import {
   TextField,
   Button,
   IconButton,
+  LinearProgress,
+  Alert,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -44,10 +46,6 @@ function Home() {
       }
     }
   }, [search, profiles]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -109,46 +107,53 @@ function Home() {
 
   return (
     <Box sx={{ p: 6, mx: 6 }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <TextField
-          label="Search"
-          sx={{ flexGrow: 1 }}
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
-        />
-        <Button
-          color="secondary"
-          variant="outlined"
-          sx={{ mx: 2, p: 1.25 }}
-          aria-label="create profile"
-          onClick={() => setOpenCreatePro(true)}
-        >
-          <PersonAddIcon sx={{ mr: 1 }} />
-          Create Profile
-        </Button>
-      </Box>
-      <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
+      {error && <Alert severity="error">{error}</Alert>}
+      {loading ? (
+        <LinearProgress color="secondary" />
+      ) : (
+        <>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <TextField
+              label="Search"
+              sx={{ flexGrow: 1 }}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            />
+            <Button
+              color="secondary"
+              variant="outlined"
+              sx={{ mx: 2, p: 1.25 }}
+              aria-label="create profile"
+              onClick={() => setOpenCreatePro(true)}
+            >
+              <PersonAddIcon sx={{ mr: 1 }} />
+              Create Profile
+            </Button>
+          </Box>
+          <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
 
-      <DataGrid
-        columns={columns}
-        rows={rows || []}
-        pageSizeOptions={[5, 10, 100]}
-        pageSize={10}
-        disableMultipleRowSelection={true}
-        // onPageChange={handlePageChange}
-        onRowSelectionModelChange={(ids) => {
-          const selectedIDs = new Set(ids);
-          const selectedRows = profiles.filter((row) =>
-            selectedIDs.has(row.id)
-          );
+          <DataGrid
+            columns={columns}
+            rows={rows || []}
+            pageSizeOptions={[5, 10, 100]}
+            pageSize={10}
+            disableMultipleRowSelection={true}
+            // onPageChange={handlePageChange}
+            onRowSelectionModelChange={(ids) => {
+              const selectedIDs = new Set(ids);
+              const selectedRows = profiles.filter((row) =>
+                selectedIDs.has(row.id)
+              );
 
-          setSelectedRows(selectedRows);
-        }}
-      />
-      <DropDown
-        selectedRows={selectedRows}
-        open={openDropDown}
-        setOpen={setOpenDropDown}
-      />
+              setSelectedRows(selectedRows);
+            }}
+          />
+          <DropDown
+            selectedRows={selectedRows}
+            open={openDropDown}
+            setOpen={setOpenDropDown}
+          />
+        </>
+      )}
     </Box>
   );
 }
