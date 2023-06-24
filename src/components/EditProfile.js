@@ -11,13 +11,16 @@ import {
   Switch,
   Typography,
   IconButton,
+  Alert,
+  LinearProgress,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 import useEditProfile from "../hooks/useEditProfile";
 
 const EditProfile = ({ profileId, initialData, open, setOpen }) => {
-  const { editProfile } = useEditProfile();
+  const [error, setError] = useState(null);
+  const { editProfile, loading } = useEditProfile();
 
   const [formData, setFormData] = useState({
     firstName: initialData.first_name,
@@ -53,7 +56,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
         setOpen(false);
       })
       .catch((error) => {
-        console.error("Error editing profile:", error);
+        setError(error);
       });
   };
 
@@ -72,6 +75,10 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             </IconButton>
           </Stack>
           <Divider />
+          <Stack>
+            {error && <Alert severity="error">{error}</Alert>}
+            {loading && <LinearProgress />}
+          </Stack>
           <TextField
             sx={{ my: 2 }}
             type="text"

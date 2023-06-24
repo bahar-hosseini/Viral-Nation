@@ -31,7 +31,7 @@ const useEditProfile = () => {
     }
   `;
 
-  const [editProfileMutation] = useMutation(EDIT_PROFILE_MUTATION);
+  const [editProfileMutation, { loading }] = useMutation(EDIT_PROFILE_MUTATION);
 
   const editProfile = (
     profileId,
@@ -55,7 +55,7 @@ const useEditProfile = () => {
     });
   };
 
-  return { editProfile };
+  return { editProfile, loading };
 };
 
 export default useEditProfile;
