@@ -6,9 +6,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useMutation, gql } from "@apollo/client";
 import React from "react";
 
-const DeleteProfile = ({ open, setOpen }) => {
+const DELETE_PROFILE_MUTATION = gql`
+  mutation DeleteProfile($deleteProfileId: String!) {
+    deleteProfile(id: $deleteProfileId)
+  }
+`;
+
+const DeleteProfile = ({ open, setOpen, profileId }) => {
+  const [deleteProfile] = useMutation(DELETE_PROFILE_MUTATION);
+
+  const handleDeleteProfile = () => {
+    deleteProfile({ variables: { deleteProfileId: profileId } })
+      .then((response) => {
+        console.log("Profile deleted");
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.error("Error deleting profile:", error);
+      });
+  };
+
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle>Remove profile</DialogTitle>
@@ -29,6 +49,7 @@ const DeleteProfile = ({ open, setOpen }) => {
           variant="contained"
           aria-label="Cancel"
           sx={{ px: 6 }}
+          onClick={() => setOpen(false)}
         >
           Cancel
         </Button>
@@ -37,6 +58,7 @@ const DeleteProfile = ({ open, setOpen }) => {
           variant="contained"
           aria-label="Delete"
           sx={{ px: 6 }}
+          onClick={handleDeleteProfile}
         >
           Delete
         </Button>

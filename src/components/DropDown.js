@@ -48,7 +48,11 @@ const DropDown = ({ open, setOpen, selectedRows }) => {
         initialData={selectedRows.length > 0 && selectedRows[0]}
         profileId={selectedRows.length > 0 && selectedRows[0]["id"]}
       />
-      <DeleteProfile open={openDeletePro} setOpen={setOpenDeletePro} />
+      <DeleteProfile
+        open={openDeletePro}
+        setOpen={setOpenDeletePro}
+        profileId={selectedRows.length > 0 && selectedRows[0]["id"]}
+      />
     </>
   );
 };
