@@ -9,6 +9,8 @@ import {
 import { useMutation, gql } from "@apollo/client";
 import React from "react";
 
+import CloseIcon from "@mui/icons-material/Close";
+
 const DELETE_PROFILE_MUTATION = gql`
   mutation DeleteProfile($deleteProfileId: String!) {
     deleteProfile(id: $deleteProfileId)
@@ -31,7 +33,11 @@ const DeleteProfile = ({ open, setOpen, profileId }) => {
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>Remove profile</DialogTitle>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <DialogTitle>Remove profile</DialogTitle>
+        <CloseIcon sx={{ mx: 2 }} />
+      </Stack>
+
       <Divider />
       <Typography sx={{ px: 2, py: 6 }}>
         Removed profile will be deleted permenantly and won't be available
