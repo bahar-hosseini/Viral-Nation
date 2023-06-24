@@ -5,6 +5,7 @@ import {
   Divider,
   Stack,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { useMutation, gql } from "@apollo/client";
 import React from "react";
@@ -34,8 +35,10 @@ const DeleteProfile = ({ open, setOpen, profileId }) => {
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <DialogTitle>Remove profile</DialogTitle>
-        <CloseIcon sx={{ mx: 2 }} />
+        <DialogTitle>Remove Profile</DialogTitle>
+        <IconButton onClick={() => setOpen(false)}>
+          <CloseIcon sx={{ mx: 2 }} />
+        </IconButton>
       </Stack>
 
       <Divider />

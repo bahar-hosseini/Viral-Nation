@@ -11,7 +11,10 @@ import {
   Stack,
   Switch,
   Typography,
+  IconButton,
 } from "@mui/material";
+
+import CloseIcon from "@mui/icons-material/Close";
 
 const EDIT_PROFILE_MUTATION = gql`
   mutation UpdateProfile(
@@ -91,7 +94,16 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box sx={{ p: 4 }}>
         <FormControl>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <DialogTitle>Edit Profile</DialogTitle>
+            <IconButton onClick={() => setOpen(false)}>
+              <CloseIcon sx={{ mx: 2 }} />
+            </IconButton>
+          </Stack>
           <Divider />
           <TextField
             sx={{ my: 2 }}

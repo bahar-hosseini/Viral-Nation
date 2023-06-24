@@ -11,7 +11,10 @@ import {
   Button,
   Stack,
   Typography,
+  IconButton,
 } from "@mui/material";
+
+import CloseIcon from "@mui/icons-material/Close";
 
 const CREATE_PROFILE_MUTATION = gql`
   mutation CreateProfile(
@@ -75,7 +78,16 @@ const CreateProfile = ({ open, setOpen }) => {
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box sx={{ p: 4 }}>
         <FormControl>
-          <DialogTitle>Create Profile</DialogTitle>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <DialogTitle>Create Profile</DialogTitle>
+            <IconButton onClick={() => setOpen(false)}>
+              <CloseIcon sx={{ mx: 2 }} />
+            </IconButton>
+          </Stack>
           <Divider />
           <TextField
             sx={{ my: 2 }}
