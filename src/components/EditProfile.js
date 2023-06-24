@@ -144,7 +144,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             alignItems="center"
             sx={{ backgroundColor: "primary.dark", borderRadius: "5px", py: 1 }}
           >
-            <Typography sx={{ mx: 2 }}>Verification</Typography>
+            <Typography sx={{ mx: 2 }}>Talent is verified</Typography>
             <Switch
               color="secondary"
               label="Is Verified"
