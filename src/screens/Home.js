@@ -27,7 +27,6 @@ function Home() {
   const [rows, setRows] = useState(profiles);
   const [openCreatePro, setOpenCreatePro] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
-  const [pageSize, setPageSize] = useState(10);
 
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -46,6 +45,10 @@ function Home() {
       }
     }
   }, [search, profiles]);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   const columns = [
     {
@@ -130,11 +133,10 @@ function Home() {
           <DataGrid
             columns={columns}
             rows={rows || []}
-            rowsPerPageOptions={[5, 10, 20]}
-            pagination
+            pageSizeOptions={[5, 10, 100]}
+            pageSize={10}
             disableMultipleRowSelection={true}
-            pageSize={pageSize}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            // onPageChange={handlePageChange}
             onRowSelectionModelChange={(ids) => {
               const selectedIDs = new Set(ids);
               const selectedRows = profiles.filter((row) =>

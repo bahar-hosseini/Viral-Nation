@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeProvider, Paper } from "@mui/material";
+import { ThemeProvider, Paper, CssBaseline } from "@mui/material";
 import Navbar from "./components/Navbar";
 import Home from "./screens/Home";
 import { Card } from "@material-ui/core";
@@ -11,6 +11,7 @@ const App = () => {
   return (
     <ThemeProvider theme={activeTheme}>
       <Navbar />
+      <CssBaseline />
       <Paper>
         <Home />
       </Paper>
