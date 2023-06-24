@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import {
   TextField,
   Button,
@@ -15,38 +14,11 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-
-const EDIT_PROFILE_MUTATION = gql`
-  mutation UpdateProfile(
-    $updateProfileId: String!
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $isVerified: Boolean!
-    $imageUrl: String!
-    $description: String!
-  ) {
-    updateProfile(
-      id: $updateProfileId
-      first_name: $firstName
-      last_name: $lastName
-      email: $email
-      is_verified: $isVerified
-      image_url: $imageUrl
-      description: $description
-    ) {
-      id
-      first_name
-      last_name
-      email
-      is_verified
-      image_url
-      description
-    }
-  }
-`;
+import useEditProfile from "../hooks/useEditProfile";
 
 const EditProfile = ({ profileId, initialData, open, setOpen }) => {
+  const { editProfile } = useEditProfile();
+
   const [formData, setFormData] = useState({
     firstName: initialData.first_name,
     lastName: initialData.last_name,
@@ -55,8 +27,6 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     image_url: initialData.image_url,
     is_verified: initialData.is_verified,
   });
-
-  const [editProfile] = useMutation(EDIT_PROFILE_MUTATION);
 
   const handleChange = (e) => {
     setFormData({
@@ -69,20 +39,17 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     const { firstName, lastName, email, is_verified, image_url, description } =
       formData;
 
-    editProfile({
-      variables: {
-        updateProfileId: profileId,
-        firstName,
-        lastName,
-        email,
-        isVerified: is_verified,
-        imageUrl: image_url,
-        description,
-      },
-    })
+    editProfile(
+      profileId,
+      firstName,
+      lastName,
+      email,
+      is_verified,
+      image_url,
+      description
+    )
       .then((response) => {
         console.log("Profile edited:", response.data.updateProfile);
-        setFormData({});
         setOpen(false);
       })
       .catch((error) => {
@@ -138,6 +105,8 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             value={formData.email}
             name="email"
             onChange={handleChange}
+            placeholder={formData.email}
+            autoComplete
           />
           <TextField
             sx={{ my: 2 }}
