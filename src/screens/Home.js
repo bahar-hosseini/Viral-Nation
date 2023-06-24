@@ -8,6 +8,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import useGetAllProfiles from "../hooks/useGetAllProfiles";
 import CreateProfile from "../components/CreateProfile";
+import EditProfile from "../components/EditProfile";
 
 function Home() {
   const { loading, error, data } = useGetAllProfiles();
@@ -15,7 +16,11 @@ function Home() {
 
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState(profiles);
-  const [open, setOpen] = useState(false);
+  const [openCreatePro, setOpenCreatePro] = useState(false);
+  const [openEditPro, setOpenEditPro] = useState(false);
+
+  const [selectedRows, setSelectedRows] = useState([]);
+  console.log(selectedRows);
 
   useEffect(() => {
     if (profiles) {
@@ -88,7 +93,7 @@ function Home() {
       headerAlign: "center",
       renderCell: (params) => (
         <Button color="moreBtn">
-          <MoreVertIcon />
+          <MoreVertIcon onClick={() => setOpenEditPro(true)} />
         </Button>
       ),
       sortable: false,
@@ -108,19 +113,34 @@ function Home() {
           variant="outlined"
           sx={{ mx: 2, p: 1.25 }}
           aria-label="create profile"
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenCreatePro(true)}
         >
           <PersonAddIcon sx={{ mr: 1 }} />
           Create Profile
         </Button>
       </Box>
-      <CreateProfile open={open} setOpen={setOpen} />
+      <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
+      <EditProfile
+        open={openEditPro}
+        setOpen={setOpenEditPro}
+        initialData={selectedRows.length > 0 && selectedRows[0]}
+        profileId={selectedRows.length > 0 && selectedRows[0]["id"]}
+      />
       <DataGrid
         columns={columns}
         rows={rows || []}
         pageSizeOptions={[5, 10, 100]}
         pageSize={10}
+        disableMultipleRowSelection={true}
         // onPageChange={handlePageChange}
+        onRowSelectionModelChange={(ids) => {
+          const selectedIDs = new Set(ids);
+          const selectedRows = profiles.filter((row) =>
+            selectedIDs.has(row.id)
+          );
+
+          setSelectedRows(selectedRows);
+        }}
       />
     </Box>
   );

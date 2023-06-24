@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import Dialog from "@mui/material/Dialog";
 import {
-  DialogTitle,
-  Divider,
-  Box,
-  Switch,
-  FormControl,
   TextField,
   Button,
+  Dialog,
+  Box,
+  FormControl,
+  DialogTitle,
+  Divider,
   Stack,
+  Switch,
   Typography,
 } from "@mui/material";
 
-const CREATE_PROFILE_MUTATION = gql`
-  mutation CreateProfile(
+const EDIT_PROFILE_MUTATION = gql`
+  mutation UpdateProfile(
+    $updateProfileId: String!
     $firstName: String!
     $lastName: String!
     $email: String!
@@ -22,7 +23,8 @@ const CREATE_PROFILE_MUTATION = gql`
     $imageUrl: String!
     $description: String!
   ) {
-    createProfile(
+    updateProfile(
+      id: $updateProfileId
       first_name: $firstName
       last_name: $lastName
       email: $email
@@ -41,33 +43,47 @@ const CREATE_PROFILE_MUTATION = gql`
   }
 `;
 
-const CreateProfile = ({ open, setOpen }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [description, setDescription] = useState("");
+const EditProfile = ({ profileId, initialData, open, setOpen }) => {
+  const [formData, setFormData] = useState({
+    firstName: initialData.first_name,
+    lastName: initialData.last_name,
+    email: initialData.email,
+    description: initialData.description,
+    image_url: initialData.image_url,
+    is_verified: initialData.is_verified,
+  });
 
-  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION);
+  const [editProfile] = useMutation(EDIT_PROFILE_MUTATION);
 
-  const handleCreateProfile = () => {
-    createProfile({
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditProfile = () => {
+    const { firstName, lastName, email, is_verified, image_url, description } =
+      formData;
+
+    editProfile({
       variables: {
+        updateProfileId: profileId,
         firstName,
         lastName,
         email,
-        isVerified,
-        imageUrl,
+        isVerified: is_verified,
+        imageUrl: image_url,
         description,
       },
     })
       .then((response) => {
-        console.log("Profile created:", response.data.createProfile);
+        console.log("Profile edited:", response.data.updateProfile);
+        setFormData({});
         setOpen(false);
       })
       .catch((error) => {
-        console.error("Error creating profile:", error);
+        console.error("Error editing profile:", error);
       });
   };
 
@@ -75,44 +91,42 @@ const CreateProfile = ({ open, setOpen }) => {
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box sx={{ p: 4 }}>
         <FormControl>
-          <DialogTitle>Create Profile</DialogTitle>
+          <DialogTitle>Edit Profile</DialogTitle>
           <Divider />
           <TextField
             sx={{ my: 2 }}
             type="text"
-            fullWidth
             label="Image URL"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            value={formData.image_url}
+            name="image_url"
+            onChange={handleChange}
           />
           <Stack my={2} direction="row" justifyContent="space-around">
             <TextField
               sx={{ mr: 1 }}
               type="text"
-              fullWidth
               label="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={formData.firstName}
+              name="firstName"
+              onChange={handleChange}
             />
-
             <TextField
               sx={{ ml: 1 }}
               type="text"
-              fullWidth
               label="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={formData.lastName}
+              name="lastName"
+              onChange={handleChange}
             />
           </Stack>
           <TextField
             sx={{ my: 2 }}
-            type="email"
-            fullWidth
+            type="text"
             label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            name="email"
+            onChange={handleChange}
           />
-
           <TextField
             sx={{ my: 2 }}
             type="text"
@@ -120,8 +134,9 @@ const CreateProfile = ({ open, setOpen }) => {
             multiline
             rows={5}
             label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={formData.description}
+            name="description"
+            onChange={handleChange}
           />
           <Stack
             direction="row"
@@ -132,7 +147,12 @@ const CreateProfile = ({ open, setOpen }) => {
             <Typography sx={{ mx: 2 }}>Verification</Typography>
             <Switch
               color="secondary"
-              onChange={() => setIsVerified(!isVerified)}
+              label="Is Verified"
+              name="is_verified"
+              checked={formData.is_verified}
+              onChange={(e) =>
+                setFormData({ ...formData, is_verified: e.target.checked })
+              }
             />
           </Stack>
           <Divider sx={{ mt: 6 }} />
@@ -140,11 +160,11 @@ const CreateProfile = ({ open, setOpen }) => {
             <Button
               color="secondary"
               variant="contained"
-              aria-label="create profile"
+              aria-label="Update Profile"
               type="submit"
-              onClick={handleCreateProfile}
+              onClick={handleEditProfile}
             >
-              Create Profile
+              Update Profile
             </Button>
           </Box>
         </FormControl>
@@ -153,4 +173,4 @@ const CreateProfile = ({ open, setOpen }) => {
   );
 };
 
-export default CreateProfile;
+export default EditProfile;
