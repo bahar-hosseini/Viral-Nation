@@ -52,7 +52,6 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
       description
     )
       .then((response) => {
-        console.log("Profile edited:", response.data.updateProfile);
         setOpen(false);
       })
       .catch((error) => {
