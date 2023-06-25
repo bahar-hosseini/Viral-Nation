@@ -14,6 +14,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import styled from "@emotion/styled";
 
 import useGetAllProfiles from "../hooks/useGetAllProfiles";
 import CreateProfile from "../components/CreateProfile";
@@ -113,6 +114,16 @@ function Home() {
     },
   ];
 
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    border: 0,
+
+    "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
+      borderBottom: `1px solid ${
+        theme.palette.mode === "light" ? "#f7f7f7" : "#363636"
+      }`,
+    },
+  }));
+
   return (
     <Box sx={{ p: 6, mx: 6 }}>
       {error && <Alert severity="error">{error.message}</Alert>}
@@ -143,15 +154,15 @@ function Home() {
             "& .super-app-theme--cell": {
               backgroundColor: "primary.light",
               fontWeight: "400",
-              boxShadow: 2,
+              border: "none",
+              boxShadow: 1,
             },
             "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
-              borderBottom: "1px solid primary",
-              boarderTop: "0",
+              borderBottom: "0px solid primary",
             },
           }}
         >
-          <DataGrid
+          <StyledDataGrid
             columns={columns}
             rows={rows || []}
             disableMultipleRowSelection={true}
@@ -166,6 +177,7 @@ function Home() {
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
             pageSizeOptions={[5, pageSize]}
+            autoHeight
           />
         </Box>
         <DropDown
