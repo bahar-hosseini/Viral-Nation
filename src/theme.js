@@ -27,6 +27,9 @@ const darkTheme = createTheme({
     },
     typography: {
       fontFamily: "Roboto",
+      h5: {
+        fontSize: ".7rem",
+      },
     },
   },
 });
@@ -59,6 +62,9 @@ const lightTheme = createTheme({
     typography: {
       fontFamily: "Roboto",
       color: "#212121",
+      h5: {
+        fontSize: ".7rem",
+      },
     },
   },
 });

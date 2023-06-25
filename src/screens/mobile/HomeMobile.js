@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Box, TextField, Button, LinearProgress, Alert } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  LinearProgress,
+  Alert,
+  Paper,
+} from "@mui/material";
 
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
@@ -34,42 +41,48 @@ function HomeMobile() {
   }, [debouncedSearch, data]);
 
   return (
-    <Box sx={{ p: 3, mx: 1 }}>
-      {error && <Alert severity="error">{error.message}</Alert>}
-      {loading && <LinearProgress color="secondary" />}
+    <Paper sx={{ p: 2, margin: "auto", flexGrow: 1 }}>
+      <Box>
+        {error && <Alert severity="error">{error.message}</Alert>}
+        {loading && <LinearProgress color="secondary" />}
 
-      <>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <TextField
-            color="secondary"
-            label="Search"
-            fullWidth
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
-          />
-          <Button
-            sx={{
-              mt: 2,
-              width: "25%",
-              textTransform: "none",
-              py: 1,
-              px: 2,
-              alignSelf: "end",
-            }}
-            color="secondary"
-            variant="outlined"
-            aria-label="create profile"
-            onClick={() => setOpenCreatePro(true)}
-          >
-            <PersonAddIcon sx={{ m: 0 }} />
-            Create Profile
-          </Button>
+        <Box>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <TextField
+              color="secondary"
+              label="Search"
+              fullWidth
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            ></TextField>
+
+            <Button
+              sx={{
+                display: "flex",
+                alignSelf: "end",
+                textTransform: "none",
+                mt: 2,
+                width: "128",
+                py: 1,
+                px: 2,
+              }}
+              color="secondary"
+              variant="outlined"
+              aria-label="create profile"
+              onClick={() => setOpenCreatePro(true)}
+            >
+              <PersonAddIcon sx={{ m: 0 }} />
+              Create Profile
+            </Button>
+          </Box>
+          <Box>
+            <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
+            {profiles?.map((item) => (
+              <HomeMobileItem key={item.id} item={item} />
+            ))}
+          </Box>
         </Box>
-        <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
-        {profiles?.map((item) => (
-          <HomeMobileItem key={item.id} item={item} />
-        ))}
-      </>
-    </Box>
+      </Box>
+    </Paper>
   );
 }
 
