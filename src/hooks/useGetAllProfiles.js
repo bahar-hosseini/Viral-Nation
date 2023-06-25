@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 
-const useGetAllProfiles = () => {
+const useGetAllProfiles = (search) => {
   const COLLECTIONS = gql`
     query GetAllProfiles(
       $orderBy: globalOrderBy
@@ -33,7 +33,7 @@ const useGetAllProfiles = () => {
       orderBy: { key: "is_verified", sort: "desc" },
       rows: 100000,
       // page: 0,
-      searchString: "",
+      searchString: search,
     },
   });
 
