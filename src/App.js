@@ -1,32 +1,32 @@
 import { useContext } from "react";
-import { ThemeProvider, Paper, CssBaseline } from "@mui/material";
+import {
+  ThemeProvider,
+  Paper,
+  CssBaseline,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+
 import Navbar from "./components/Navbar";
-import Home from "./screens/Home";
-import { Card } from "@material-ui/core";
+import HomeWeb from "./screens/web/HomeWeb";
+
 import { ThemeContext } from "./providers/DarkModeProvider";
+import HomeMobile from "./screens/mobile/HomeMobile";
 
 const App = () => {
   const { activeTheme } = useContext(ThemeContext);
+
+  const theme = useTheme();
+  const match = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <ThemeProvider theme={activeTheme}>
       <Navbar />
       <CssBaseline />
-      <Paper
-        elevation={0}
-        square={false}
-        sx={{
-          width: "80vw",
-          height: "auto",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "0 auto",
-          border: 0,
-        }}
-      >
-        <Home />
-      </Paper>
+
+      {!match && <HomeWeb />}
+      {match && <HomeMobile />}
     </ThemeProvider>
   );
 };

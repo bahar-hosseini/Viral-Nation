@@ -8,6 +8,7 @@ import {
   IconButton,
   LinearProgress,
   Alert,
+  Paper,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -16,18 +17,17 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import styled from "@emotion/styled";
 
-import useGetAllProfiles from "../hooks/useGetAllProfiles";
-import CreateProfile from "../components/CreateProfile";
-import DropDown from "../components/DropDown";
-import { useDebounce } from "../hooks/useDebounce";
+import useGetAllProfiles from "../../hooks/useGetAllProfiles";
+import CreateProfile from "../../components/CreateProfile";
+import DropDown from "../../components/DropDown";
+import { useDebounce } from "../../hooks/useDebounce";
 
-function Home() {
+function HomeWeb() {
   const [search, setSearch] = useState("");
   const { loading, error, data } = useGetAllProfiles(search);
   const { profiles } = data?.getAllProfiles || {};
 
   const [rows, setRows] = useState(profiles);
-
   const [openCreatePro, setOpenCreatePro] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
 
@@ -35,7 +35,7 @@ function Home() {
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [paginationModel, setPaginationModel] = useState({
-    pageSize: pageSize,
+    pageSize,
     page: 0,
   });
 
@@ -125,69 +125,83 @@ function Home() {
   }));
 
   return (
-    <Box sx={{ p: 6, mx: 6 }}>
-      {error && <Alert severity="error">{error.message}</Alert>}
-      {loading && <LinearProgress color="secondary" />}
+    <Paper
+      elevation={0}
+      square={false}
+      sx={{
+        width: "80vw",
+        height: "auto",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "0 auto",
+        border: 0,
+      }}
+    >
+      <Box sx={{ p: 6, mx: 6 }}>
+        {error && <Alert severity="error">{error.message}</Alert>}
+        {loading && <LinearProgress color="secondary" />}
 
-      <>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          <TextField
-            color="secondary"
-            label="Search"
-            sx={{ flexGrow: 1 }}
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
-          />
-          <Button
-            color="secondary"
-            variant="outlined"
-            sx={{ mx: 2, p: 1.25 }}
-            aria-label="create profile"
-            onClick={() => setOpenCreatePro(true)}
-          >
-            <PersonAddIcon sx={{ mr: 1 }} />
-            Create Profile
-          </Button>
-        </Box>
-        <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
-        <Box
-          sx={{
-            "& .super-app-theme--cell": {
-              backgroundColor: "primary.light",
-              fontWeight: "400",
-              border: "none",
-              boxShadow: 1,
-            },
-            "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
-              borderBottom: "0px solid primary",
-            },
-          }}
-        >
-          <StyledDataGrid
-            columns={columns}
-            rows={rows || []}
-            disableMultipleRowSelection={true}
-            onRowSelectionModelChange={(ids) => {
-              const selectedIDs = new Set(ids);
-              const selectedRows = profiles.filter((row) =>
-                selectedIDs.has(row.id)
-              );
-
-              setSelectedRows(selectedRows);
+        <>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <TextField
+              color="secondary"
+              label="Search"
+              sx={{ flexGrow: 1 }}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            />
+            <Button
+              color="secondary"
+              variant="outlined"
+              sx={{ mx: 2, p: 1.25 }}
+              aria-label="create profile"
+              onClick={() => setOpenCreatePro(true)}
+            >
+              <PersonAddIcon sx={{ mr: 1 }} />
+              Create Profile
+            </Button>
+          </Box>
+          <CreateProfile open={openCreatePro} setOpen={setOpenCreatePro} />
+          <Box
+            sx={{
+              "& .super-app-theme--cell": {
+                backgroundColor: "primary.light",
+                fontWeight: "400",
+                border: "none",
+                boxShadow: 1,
+              },
+              "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
+                borderBottom: "0px solid primary",
+              },
             }}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[5, pageSize]}
-            autoHeight
+          >
+            <StyledDataGrid
+              columns={columns}
+              rows={rows || []}
+              disableMultipleRowSelection={true}
+              onRowSelectionModelChange={(ids) => {
+                const selectedIDs = new Set(ids);
+                const selectedRows = profiles.filter((row) =>
+                  selectedIDs.has(row.id)
+                );
+
+                setSelectedRows(selectedRows);
+              }}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              pageSizeOptions={[5, pageSize]}
+              autoHeight
+            />
+          </Box>
+          <DropDown
+            selectedRows={selectedRows}
+            open={openDropDown}
+            setOpen={setOpenDropDown}
           />
-        </Box>
-        <DropDown
-          selectedRows={selectedRows}
-          open={openDropDown}
-          setOpen={setOpenDropDown}
-        />
-      </>
-    </Box>
+        </>
+      </Box>
+    </Paper>
   );
 }
 
-export default Home;
+export default HomeWeb;
