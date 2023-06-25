@@ -1,9 +1,7 @@
 import { useContext } from "react";
 import {
   ThemeProvider,
-  Paper,
   CssBaseline,
-  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
