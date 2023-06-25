@@ -30,11 +30,11 @@ function Home() {
   const [openCreatePro, setOpenCreatePro] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const PAGE_SIZE = 10;
+  const pageSize = 10;
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [paginationModel, setPaginationModel] = useState({
-    pageSize: PAGE_SIZE,
+    pageSize: pageSize,
     page: 0,
   });
 
@@ -165,7 +165,7 @@ function Home() {
             }}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[5, PAGE_SIZE]}
+            pageSizeOptions={[5, pageSize]}
           />
         </Box>
         <DropDown
