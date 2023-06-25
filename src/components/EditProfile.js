@@ -112,7 +112,6 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             name="email"
             onChange={handleChange}
             placeholder={formData.email}
-            autoComplete
           />
           <TextField
             sx={{ my: 2 }}
