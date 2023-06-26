@@ -53,7 +53,7 @@ function HomeWeb() {
     } else {
       setRows(data && data.getAllProfiles ? data.getAllProfiles.profiles : []);
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch, data]);
 
   const columns = [
     {
