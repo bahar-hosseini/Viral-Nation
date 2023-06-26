@@ -34,13 +34,18 @@ capabilities include:
 
 ![Delete](/docs/delete.gif)
 
+
+### Getting Started
+
+1. Run `npm i`
+2. Create a `.env` file and include the token in a similar format as the `.env.example` file.
+3. Run `npm start`
+
+
+
 ### Tech Stack
 
 - React
 - GraphQL
 - MUI
 
-### Getting Started
-
-1. Run `npm i`
-2. Run `npm start`
