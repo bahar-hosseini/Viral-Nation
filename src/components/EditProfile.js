@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import {
   TextField,
   Button,
@@ -11,39 +10,18 @@ import {
   Stack,
   Switch,
   Typography,
+  IconButton,
+  Alert,
+  LinearProgress,
 } from "@mui/material";
 
-const EDIT_PROFILE_MUTATION = gql`
-  mutation UpdateProfile(
-    $updateProfileId: String!
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $isVerified: Boolean!
-    $imageUrl: String!
-    $description: String!
-  ) {
-    updateProfile(
-      id: $updateProfileId
-      first_name: $firstName
-      last_name: $lastName
-      email: $email
-      is_verified: $isVerified
-      image_url: $imageUrl
-      description: $description
-    ) {
-      id
-      first_name
-      last_name
-      email
-      is_verified
-      image_url
-      description
-    }
-  }
-`;
+import CloseIcon from "@mui/icons-material/Close";
+import useEditProfile from "../hooks/useEditProfile";
 
 const EditProfile = ({ profileId, initialData, open, setOpen }) => {
+  const [error, setError] = useState(null);
+  const { editProfile, loading } = useEditProfile();
+
   const [formData, setFormData] = useState({
     firstName: initialData.first_name,
     lastName: initialData.last_name,
@@ -52,8 +30,6 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     image_url: initialData.image_url,
     is_verified: initialData.is_verified,
   });
-
-  const [editProfile] = useMutation(EDIT_PROFILE_MUTATION);
 
   const handleChange = (e) => {
     setFormData({
@@ -66,34 +42,53 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     const { firstName, lastName, email, is_verified, image_url, description } =
       formData;
 
-    editProfile({
-      variables: {
-        updateProfileId: profileId,
-        firstName,
-        lastName,
-        email,
-        isVerified: is_verified,
-        imageUrl: image_url,
-        description,
-      },
-    })
+    editProfile(
+      profileId,
+      firstName,
+      lastName,
+      email,
+      is_verified,
+      image_url,
+      description
+    )
       .then((response) => {
-        console.log("Profile edited:", response.data.updateProfile);
-        setFormData({});
         setOpen(false);
       })
       .catch((error) => {
-        console.error("Error editing profile:", error);
+        setError(error);
       });
   };
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+      }}
+    >
       <Box sx={{ p: 4 }}>
         <FormControl>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <DialogTitle>Edit Profile</DialogTitle>
+            <IconButton onClick={() => setOpen(false)}>
+              <CloseIcon sx={{ mx: 2 }} />
+            </IconButton>
+          </Stack>
           <Divider />
+          <Stack>
+            {error && (
+              <Alert severity="error">
+                <Typography>Please Fill all The Input Boxes</Typography>
+              </Alert>
+            )}
+            {loading && <LinearProgress />}
+          </Stack>
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             label="Image URL"
@@ -103,6 +98,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
           />
           <Stack my={2} direction="row" justifyContent="space-around">
             <TextField
+              required
               sx={{ mr: 1 }}
               type="text"
               label="First Name"
@@ -111,6 +107,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
               onChange={handleChange}
             />
             <TextField
+              required
               sx={{ ml: 1 }}
               type="text"
               label="Last Name"
@@ -120,14 +117,17 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             />
           </Stack>
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             label="Email"
             value={formData.email}
             name="email"
             onChange={handleChange}
+            placeholder={formData.email}
           />
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             fullWidth
@@ -144,7 +144,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             alignItems="center"
             sx={{ backgroundColor: "primary.dark", borderRadius: "5px", py: 1 }}
           >
-            <Typography sx={{ mx: 2 }}>Verification</Typography>
+            <Typography sx={{ mx: 2 }}>Talent is verified</Typography>
             <Switch
               color="secondary"
               label="Is Verified"

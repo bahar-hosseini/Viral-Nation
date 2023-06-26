@@ -13,6 +13,7 @@ import DeleteProfile from "./DeleteProfile";
 const DropDown = ({ open, setOpen, selectedRows }) => {
   const [openEditPro, setOpenEditPro] = useState(false);
   const [openDeletePro, setOpenDeletePro] = useState(false);
+
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)}>

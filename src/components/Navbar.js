@@ -3,14 +3,16 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import CustomSwitch from "./customSwitch";
+import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
+
 import { ThemeContext } from "../providers/DarkModeProvider";
 
 const Navbar = () => {
   const { selectedTheme } = useContext(ThemeContext);
 
   return (
-    <div>
+    <Stack sx={{ mb: 1 }}>
       <AppBar position="static" enableColorOnDark>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -39,7 +41,7 @@ const Navbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </div>
+    </Stack>
   );
 };
 

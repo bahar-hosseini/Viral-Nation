@@ -6,14 +6,14 @@ const darkTheme = createTheme({
     mode: "dark",
     primary: {
       main: "#404040",
-      light: "#181A1C",
+      light: "#212121",
       dark: "#121212",
     },
     secondary: {
       main: "#3B94ED",
     },
     moreBtn: {
-      main: "#121212",
+      main: "#595959",
     },
     deleteBtn: {
       main: "#CC1016",
@@ -25,6 +25,12 @@ const darkTheme = createTheme({
       default: "#1E1E1E",
       paper: "#181A1C",
     },
+    typography: {
+      fontFamily: "Roboto",
+      h5: {
+        fontSize: ".7rem",
+      },
+    },
   },
 });
 
@@ -34,15 +40,15 @@ const lightTheme = createTheme({
     mode: "light",
     primary: {
       main: "#FCFCFD",
-      light: "#FCFCFD",
+      light: "#F6F6F6",
       dark: "#E0E0E0",
     },
     secondary: {
       main: "#3B94ED",
     },
     background: {
-      default: "#ffffff",
-      paper: "#F6F6F6",
+      default: "#F2F2F3",
+      paper: "#F2F2F3",
     },
     moreBtn: {
       main: "#616161",
@@ -52,6 +58,13 @@ const lightTheme = createTheme({
     },
     cancelBtn: {
       main: "#EEEEEE",
+    },
+    typography: {
+      fontFamily: "Roboto",
+      color: "#212121",
+      h5: {
+        fontSize: ".7rem",
+      },
     },
   },
 });

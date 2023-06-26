@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import Dialog from "@mui/material/Dialog";
 import {
   DialogTitle,
@@ -11,71 +9,54 @@ import {
   Button,
   Stack,
   Typography,
+  IconButton,
+  Alert,
+  LinearProgress,
 } from "@mui/material";
 
-const CREATE_PROFILE_MUTATION = gql`
-  mutation CreateProfile(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $isVerified: Boolean!
-    $imageUrl: String!
-    $description: String!
-  ) {
-    createProfile(
-      first_name: $firstName
-      last_name: $lastName
-      email: $email
-      is_verified: $isVerified
-      image_url: $imageUrl
-      description: $description
-    ) {
-      id
-      first_name
-      last_name
-      email
-      is_verified
-      image_url
-      description
-    }
-  }
-`;
+import CloseIcon from "@mui/icons-material/Close";
+import useCreateProfile from "../hooks/useCreateProfile";
 
 const CreateProfile = ({ open, setOpen }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [description, setDescription] = useState("");
-
-  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION);
-
-  const handleCreateProfile = () => {
-    createProfile({
-      variables: {
-        firstName,
-        lastName,
-        email,
-        isVerified,
-        imageUrl,
-        description,
-      },
-    })
-      .then((response) => {
-        console.log("Profile created:", response.data.createProfile);
-        setOpen(false);
-      })
-      .catch((error) => {
-        console.error("Error creating profile:", error);
-      });
-  };
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    email,
+    setEmail,
+    isVerified,
+    setIsVerified,
+    imageUrl,
+    setImageUrl,
+    description,
+    setDescription,
+    handleCreateProfile,
+    error,
+    loading,
+  } = useCreateProfile(() => setOpen(false));
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box sx={{ p: 4 }}>
         <FormControl>
-          <DialogTitle>Create Profile</DialogTitle>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <DialogTitle>Create Profile</DialogTitle>
+            <IconButton onClick={() => setOpen(false)}>
+              <CloseIcon sx={{ mx: 2 }} />
+            </IconButton>
+          </Stack>
+          <Divider />
+          <Stack>
+            {error && (
+              <Alert severity="error">Please Fill All The Input Boxes</Alert>
+            )}
+            {loading && <LinearProgress />}
+          </Stack>
           <Divider />
           <TextField
             sx={{ my: 2 }}
@@ -129,7 +110,7 @@ const CreateProfile = ({ open, setOpen }) => {
             alignItems="center"
             sx={{ backgroundColor: "primary.dark", borderRadius: "5px", py: 1 }}
           >
-            <Typography sx={{ mx: 2 }}>Verification</Typography>
+            <Typography sx={{ mx: 2 }}>Talent is verified</Typography>
             <Switch
               color="secondary"
               onChange={() => setIsVerified(!isVerified)}
