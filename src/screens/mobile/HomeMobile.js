@@ -37,7 +37,7 @@ function HomeMobile() {
         data && data.getAllProfiles ? data.getAllProfiles.profiles : []
       );
     }
-  }, [debouncedSearch, data]);
+  }, [debouncedSearch]);
 
   return (
     <Paper sx={{ p: 2, margin: "auto", flexGrow: 1 }}>
