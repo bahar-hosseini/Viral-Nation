@@ -38,6 +38,19 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
     });
   };
 
+  const handleClose = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      description: "",
+      image_url: "",
+      is_verified: false,
+    });
+
+    setOpen(false);
+  };
+
   const handleEditProfile = () => {
     const { firstName, lastName, email, is_verified, image_url, description } =
       formData;
@@ -52,7 +65,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
       description
     )
       .then((response) => {
-        setOpen(false);
+        handleClose();
       })
       .catch((error) => {
         setError(error);
@@ -60,12 +73,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => {
-        setOpen(false);
-      }}
-    >
+    <Dialog open={open} onClose={handleClose}>
       <Box sx={{ p: 4 }}>
         <FormControl>
           <Stack
@@ -74,7 +82,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             alignItems="center"
           >
             <DialogTitle>Edit Profile</DialogTitle>
-            <IconButton onClick={() => setOpen(false)}>
+            <IconButton onClick={handleClose}>
               <CloseIcon sx={{ mx: 2 }} />
             </IconButton>
           </Stack>
