@@ -60,7 +60,12 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
   };
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+      }}
+    >
       <Box sx={{ p: 4 }}>
         <FormControl>
           <Stack
@@ -75,10 +80,15 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
           </Stack>
           <Divider />
           <Stack>
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && (
+              <Alert severity="error">
+                <Typography>Please Fill all The Input Boxes</Typography>
+              </Alert>
+            )}
             {loading && <LinearProgress />}
           </Stack>
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             label="Image URL"
@@ -88,6 +98,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
           />
           <Stack my={2} direction="row" justifyContent="space-around">
             <TextField
+              required
               sx={{ mr: 1 }}
               type="text"
               label="First Name"
@@ -96,6 +107,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
               onChange={handleChange}
             />
             <TextField
+              required
               sx={{ ml: 1 }}
               type="text"
               label="Last Name"
@@ -105,6 +117,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             />
           </Stack>
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             label="Email"
@@ -114,6 +127,7 @@ const EditProfile = ({ profileId, initialData, open, setOpen }) => {
             placeholder={formData.email}
           />
           <TextField
+            required
             sx={{ my: 2 }}
             type="text"
             fullWidth

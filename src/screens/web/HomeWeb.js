@@ -55,10 +55,6 @@ function HomeWeb() {
     }
   }, [debouncedSearch]);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   const columns = [
     {
       field: "first_name",
@@ -93,7 +89,7 @@ function HomeWeb() {
     {
       field: "description",
       headerName: "Description",
-      width: 300,
+      width: 200,
       sortable: false,
       headerAlign: "center",
       align: "center",
@@ -129,7 +125,7 @@ function HomeWeb() {
       elevation={0}
       square={false}
       sx={{
-        width: "80vw",
+        width: "90vw",
         height: "auto",
         display: "flex",
         justifyContent: "center",

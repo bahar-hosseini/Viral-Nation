@@ -52,7 +52,9 @@ const CreateProfile = ({ open, setOpen }) => {
           </Stack>
           <Divider />
           <Stack>
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && (
+              <Alert severity="error">Please Fill All The Input Boxes</Alert>
+            )}
             {loading && <LinearProgress />}
           </Stack>
           <Divider />
