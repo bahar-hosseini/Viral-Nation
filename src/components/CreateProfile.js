@@ -36,8 +36,17 @@ const CreateProfile = ({ open, setOpen }) => {
     loading,
   } = useCreateProfile(() => setOpen(false));
 
+  const handleClose = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setIsVerified(false);
+    setImageUrl("");
+    setDescription("");
+    setOpen(false);
+  };
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog open={open} onClose={handleClose}>
       <Box sx={{ p: 4 }}>
         <FormControl>
           <Stack
