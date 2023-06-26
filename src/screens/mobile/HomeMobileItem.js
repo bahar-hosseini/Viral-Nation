@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Avatar, Typography, Paper, IconButton, Box } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

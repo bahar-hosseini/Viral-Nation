@@ -7,7 +7,6 @@ import {
   Alert,
   Paper,
 } from "@mui/material";
-
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import useGetAllProfiles from "../../hooks/useGetAllProfiles";

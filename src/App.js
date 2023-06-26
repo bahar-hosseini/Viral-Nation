@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 
 import Navbar from "./components/Navbar";
-
 import { ThemeContext } from "./providers/DarkModeProvider";
 import HomeMobile from "./screens/mobile/HomeMobile";
 import HomeWeb from "./screens/web/HomeWeb";
@@ -22,7 +21,6 @@ const App = () => {
     <ThemeProvider theme={activeTheme}>
       <Navbar />
       <CssBaseline />
-
       {!match && <HomeWeb />}
       {match && <HomeMobile />}
     </ThemeProvider>
